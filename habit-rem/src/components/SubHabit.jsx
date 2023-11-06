@@ -38,25 +38,7 @@ function SubHabit({ name, timers, onDelete }) {
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md mb-4">
-      <h3 className="text-lg font-semibold mb-2">{name}</h3>
-      <div>
-        <input
-          type="text"
-          className="border border-gray-300 rounded px-3 py-2"
-          placeholder="Timer Label"
-          value={newLabel}
-          onChange={(e) => setNewLabel(e.target.value)}
-        />
-        <input
-          type="number"
-          className="border border-gray-300 rounded px-3 py-2"
-          placeholder="Time Interval (seconds)"
-          value={newInterval}
-          onChange={(e) => setNewInterval(e.target.value)}
-        />
-        <button onClick={addTimer}>Add Timer</button>
-      </div>
+    <div className="p-4 bg-white rounded-lg shadow-md mb-4 mt-8">
       {timers.map((timer, index) => (
         <div key={index} className="timer-item">
           <TaskTimer
@@ -67,14 +49,13 @@ function SubHabit({ name, timers, onDelete }) {
             onComplete={() => completeTimer(index)}
             onEdit={() => editTimer(index, newLabel, newInterval)}
             onDelete={() => deleteTimer(index)}
+            id={index}
           />
         </div>
       ))}
-      <h4>COMPLETED REMINDERS</h4>
       {completedTasks.map((task, index) => (
         <div key={index}>{task.subHabitName}</div>
       ))}
-      <FaTrash onClick={onDelete} className="delete-icon" />
     </div>
   );
 }
