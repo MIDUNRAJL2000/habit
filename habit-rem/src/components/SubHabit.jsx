@@ -20,7 +20,7 @@ function SubHabit({ name, timers, onDelete }) {
 
   const completeTimer = (timerIndex) => {
     const timer = timers[timerIndex];
-    alert(`Timer "${name}" with start time "${timer.label}" is reminded!`);
+    alert(`Timer "${name}" with start time "${timer.startTime}" is reminded!`);
     setCompletedTasks([
       ...completedTasks,
       { label: timer.label, subHabitName: name },
@@ -33,12 +33,11 @@ function SubHabit({ name, timers, onDelete }) {
     timers[timerIndex].interval = newInterval;
   };
 
-  const deleteTimer = (timerIndex) => {
-    timers.splice(timerIndex, 1);
-  };
+  console.log("tinjg", timers);
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md mb-4 mt-8">
+      {/* <span>{timers}</span> */}
       {timers.map((timer, index) => (
         <div key={index} className="timer-item">
           <TaskTimer
@@ -48,7 +47,6 @@ function SubHabit({ name, timers, onDelete }) {
             startTime={timer.startTime}
             onComplete={() => completeTimer(index)}
             onEdit={() => editTimer(index, newLabel, newInterval)}
-            onDelete={() => deleteTimer(index)}
             id={index}
           />
         </div>
