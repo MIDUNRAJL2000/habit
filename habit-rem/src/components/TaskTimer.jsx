@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function TaskTimer({
   id,
+  timerz,
   label,
   interval,
   startTime,

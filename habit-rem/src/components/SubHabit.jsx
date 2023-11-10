@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TaskTimer from "./TaskTimer";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-function SubHabit({ name, timers, onDelete }) {
+function SubHabit({ timerz, name, timers, onDelete }) {
   const [newLabel, setNewLabel] = useState("");
   const [newInterval, setNewInterval] = useState(3600);
   const [completedTasks, setCompletedTasks] = useState([]);
@@ -41,6 +41,7 @@ function SubHabit({ name, timers, onDelete }) {
       {timers.map((timer, index) => (
         <div key={index} className="timer-item">
           <TaskTimer
+            timerz={timerz}
             id={index}
             label={timer.label}
             interval={timer.interval}
