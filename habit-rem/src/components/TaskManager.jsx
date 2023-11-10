@@ -9,13 +9,14 @@ function TaskManager() {
   const [editingHabitIndex, setEditingHabitIndex] = useState(null);
   const [editedHabitName, setEditedHabitName] = useState("");
   const [newSubHabit, setNewSubHabit] = useState("");
+
   const [newSubHabitStartTime, setNewSubHabitStartTime] = useState(0);
   const [newSubHabitInterval, setNewSubHabitInterval] = useState(3600);
   const [completedTasks, setCompletedTasks] = useState([]);
-  const [timerz, setTimerz] = useState(null);
+  const [timerz, setTimerz] = useState(null); //to store timer related data
 
-  const [idd, setIdd] = useState(null);
-  const [time, setTime] = useState("");
+  const [idd, setIdd] = useState(null); //to store habit id
+  const [time, setTime] = useState(""); //to store time related data
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get("http://localhost:8080/habit/view");
@@ -47,32 +48,32 @@ function TaskManager() {
     }
   };
 
-  const editHabit = (habitIndex, newName) => {
-    habits[habitIndex].name = newName;
-    setEditingHabitIndex(null);
-  };
-  // const [deleteData, setDeleteData] = useState(null)
-  //   useEffect(() => {
-  //     axios
-  //       .delete(`http://localhost:8080/habit/delete/${habitIndex}`)
-  //       .then((response) => {
-  //         setDeleteData(null)
-  //         console.log("deleted")
+  const editHabit = (habitIndex) => {
+    setEditingHabitIndex(1);
 
-  //       })
-  //       .catch((error) => {
-  // console.log("not deleted")
-  //       });
-  //   }, [deleteData]);
+    console.log(habitIndex);
+  };
+  const sendPut = (habitId, editedHabitName) => {
+    axios
+      .put(`http://localhost:8080/habit/update/${habitId}`, {
+        description: editedHabitName,
+        habitId: habitId,
+      })
+      .then((response) => {
+        console.log("Habit updated successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error updating habit:", error);
+      });
+  };
+
   const deleteHabit = (habitIndex) => {
     axios
       .delete(`http://localhost:8080/habit/delete/${habitIndex}`)
       .then((response) => {
-        // Handle success, if needed
         console.log("Delete request successful", response);
       })
       .catch((error) => {
-        // Handle error, if needed
         console.error("Error making delete request", error);
       });
     const updatedHabits = [...habits];
@@ -92,10 +93,7 @@ function TaskManager() {
         },
       ],
     };
-    // updatedHabits[habitIndex].subHabits.push(subHabit);
-    // setHabits(updatedHabits);
-    // setNewSubHabit("");
-    // setNewSubHabitStartTime(0);
+
     console.log(idd, "bro");
     console.log(newSubHabit, newSubHabitInterval, newSubHabitStartTime);
     try {
@@ -168,7 +166,7 @@ function TaskManager() {
               </div>
               <div className="flex gap-4">
                 <FaEdit
-                  onClick={() => setEditingHabitIndex(habitIndex)}
+                  onClick={() => editHabit(habit)}
                   className="edit-icon cursor-pointer"
                 />
                 <FaTrash
@@ -177,7 +175,7 @@ function TaskManager() {
                 />
               </div>
             </div>
-            {editingHabitIndex === habitIndex ? (
+            {editingHabitIndex ? (
               <div className="edit-habit-input">
                 <input
                   type="text"
@@ -187,7 +185,7 @@ function TaskManager() {
                 />
                 <button
                   className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-4 mt-2 hover:scale-105 focus:outline-none"
-                  onClick={() => editHabit(habitIndex, editedHabitName)}
+                  onClick={() => sendPut(habit.habitId, habit)}
                 >
                   Save
                 </button>
